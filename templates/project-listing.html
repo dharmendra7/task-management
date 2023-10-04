@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h5> Welcome, {{user}}! 👋 </h5>
+    <hr>
+    <a class="btn btn-outline-primary btn-sm" href="{% url 'project-create' %}">
+        Create a new project &nbsp; <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <hr> 
+
+    <table class="table table-hover table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th scope="col"> ID </th>
+                <th scope="col"> Full name </th>
+                <th scope="col"> Description </th>
+                <th scope="col"> Created At</th>
+                <th scope="col"> View </th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% if project_record %}
+            {% for record in project_record %}
+            <tr>
+                <td> {{record.id}} </td>
+                <td> {{record.name}} </td>
+                <td> {{record.description}} </td>
+                <td> {{record.created_at}} </td>
+                <td> <a class="btn btn-success btn-sm" href="{% url 'project-details' record.id %}"> <i class="fa fa-eye" aria-hidden="true"></i> </a> </td>
+            </tr>
+            {% endfor %}       
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

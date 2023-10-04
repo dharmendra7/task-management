@@ -1,0 +1,41 @@
+version: '3.8'
+
+networks:
+  taskmanagement-network:
+    driver: bridge
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-sj+su_ct+lt!*hhu+%8cx8m49&$85175r!p+l1i)g3d1ngje8=
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - REDIS_HOST=redis
+    networks:
+      - taskmanagement-network
+    depends_on:
+      - redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - taskmanagement-network
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: sh -c "sleep 10 && celery -A taskmanagement worker -l info"
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    networks:
+      - taskmanagement-network

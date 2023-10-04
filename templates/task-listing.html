@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h5> Welcome, {{user}}! 👋 </h5>
+    <hr>
+    <p>Here are your tasks to be completed.</p>
+    <hr> 
+
+    <table class="table table-hover table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th scope="col"> ID </th>
+                <th scope="col"> Full name </th>
+                <th scope="col"> Description </th>
+                <th scope="col"> Created At</th>
+                <th scope="col"> Completed </th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% if available_task %}
+            {% for record in available_task %}
+            <tr>
+                <td> {{record.id}} </td>
+                <td> {{record.name}} </td>
+                <td> {{record.description}} </td>
+                <td> {{record.created_at}} </td>
+                {% if record.completed == True %}
+                    <td> <a class="btn btn-success btn-sm" id="completed{{record.id}}" onclick=change_status("{{record.id}}")> Completed </a> </td>
+                {% else %}
+                    <td> <a class="btn btn-danger btn-sm" id="pending{{record.id}}" onclick=change_status("{{record.id}}")> Pending </a> </td>
+                {% endif %}
+            </tr>
+            {% endfor %}       
+        {% endif %}
+        </tbody>
+    </table>
+
+    <script>
+        function change_status(taskId){
+            url = "/tasks-status/" + taskId
+
+            $.ajax({
+                url: url, 
+                success: function(result){
+                    $('.alert-success').remove()
+                    text = "Your task has been completed successfully. Updated the respected PM via mail."
+                    html = `<p id="message-timer" class="alert alert-success float-center text-center message-text"> 
+                        <i class="fa fa-check" aria-hidden="true"></i> &nbsp; ${text}
+                    </p>`
+                    $('.container').prepend(html);
+                    var elem = document.getElementById('pending'+taskId)
+                    elem.textContent = "Completed"
+                    elem.className = "btn btn-success btn-sm"
+                    var message_timeout = document.getElementById("message-timer");
+                    setTimeout(function(){
+                        message_timeout.style.display = "none";
+                    }, 5000);
+                },
+                error:function(a,b,c)
+                {
+
+                }
+            });
+        }
+    </script>
+
+{% endblock %}

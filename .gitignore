@@ -1,0 +1,40 @@
+media/
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__
+.vscode
+__pycache__/
+tasks/__pycache__/
+tasksweb/__pycache__/
+taskmanagement/__pycache__/
+tasks/migrations/__pycache__/
+tasksweb/migrations/__pycache__/
+# db.sqlite3
+# db.sqlite3-journal
+# media/user/*
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Translations
+*.mo
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+stops.json
+# Environments
+/.env
+.env
+.env/
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+Pipfile
+Pipfile.lock
+*.pdf

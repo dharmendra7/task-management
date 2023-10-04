@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <strong>   
+                {{project_record.name|upper}}
+            </strong>
+            <hr> 
+            <p> <strong> Description: </strong> {{project_record.description}} </p>
+            <p> <strong> Creation date: </strong> {{project_record.created_at}} </p>
+        </div>
+    </div>
+    <br>
+    <a href="{% url 'project-listing' %}" class="btn btn-secondary"> Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i> </a>
+    &nbsp;
+    <a href="{% url 'project-edit' project_record.id %}" class="btn btn-info"> Update record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i> </a>
+    &nbsp;
+    <a href="{% url 'project-delete' project_record.id %}" class="btn btn-danger"> Delete &nbsp;<i class="fa fa-minus-square" aria-hidden="true"></i> </a>
+    &nbsp;
+    <a href="{% url 'task-create' project_record.id %}" class="btn btn-danger"> Add Tasks &nbsp;<i class="fa fa-arrow-down" aria-hidden="true"></i> </a>
+    <br>    
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h5> Tasks </h5>
+            <hr> 
+
+            {% if task_records %}
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col"> ID </th>
+                        <th scope="col"> Task </th>
+                        <th scope="col"> Description </th>
+                        <th scope="col"> Assign To </th>
+                        <th scope="col"> Is Completed </th>
+                        <th scope="col"> Created At</th>
+                        <th scope="col"> Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for record in task_records %}
+                    <tr>
+                        <td> {{record.id}} </td>
+                        <td> {{record.name}} </td>
+                        <td> {{record.description}} </td>
+                        <td> {{record.assign_to}} </td>
+                        <td> {{record.completed}} </td>
+                        <td> {{record.created_at}} </td>
+                        <td> <a class="btn btn-danger btn-sm" id="myButton{{record.id }}" onclick=id_function("{{record.id}}") > <i class="fa fa-minus-square"aria-hidden="true"></i> </a> </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function id_function(taskId){
+            console.log(taskId)
+            console.log(window.location.origin)
+            url = "/tasks-delete/" + taskId
+            $.ajax({
+                url: url, 
+                success: function(result){
+                    console.log('working');
+                },
+                error:function(a,b,c)
+                {
+
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
