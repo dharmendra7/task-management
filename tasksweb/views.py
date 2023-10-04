@@ -152,9 +152,6 @@ def change_task_status(request, pk):
 
         # Used Celery to sending the mail
         send_email_fun.delay("Task Completion Notification", "your_message", settings.EMAIL_HOST_USER, email)
-        
-
-
     task_record.save()
     print(task_record.completed)
     return JsonResponse({'text' : f'Your task markes as {staus}!'})

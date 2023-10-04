@@ -8,7 +8,7 @@ def send_email_fun(subject, message, sender, receiver):
     time.sleep(5) # for check that sending email process runs in background 
     # send_mail(subject, message, sender, [receiver])
     subject = "Task Completion Notification"
-    html_message = render_to_string('task_completion_email.html')
+    html_message = render_to_string('mail.html')
 
     send_mail(
         subject,
