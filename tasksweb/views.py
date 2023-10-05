@@ -41,10 +41,26 @@ def user_logout(request):
     return redirect("login")
 
 
+def user_register(request):
+    form = forms.CreateUserForm()
+
+    if request.method == "POST":
+        form = forms.CreateUserForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Account created successfully!")
+            return redirect("login")
+
+    context = {'form':form}
+    return render(request, 'register.html', context=context)
+
+
 @login_required(login_url='login')
 @project_manager_required
 def project_listing(request):
-    project_record = Project.objects.all()
+    print(request.user)
+    project_record = Project.objects.filter(owner = request.user.id)
     context = {'project_record': project_record}
     return render(request, 'project-listing.html', context=context)
 

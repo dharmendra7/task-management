@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <body>
+        <div class="container bg-light shadow-md p-5 form-layout">
+            <h3> Create your account </h3>
+            <h5> Start managing your tasks from today! </h5>
+            <hr>
+            <br>
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                {{form.email}}
+                <br>
+                {{form.password1}}
+                <br>
+                {{form.password2}}
+                <br>
+                <label> Is Project Manager
+                    {{form.is_project_manager}}
+                </label>
+                <br>
+                <br>
+                <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Create account &nbsp; <i class="fa fa-user" aria-hidden="true"></i> </button>
+            </form>
+            
+            <br>
+            <div class="text-center">
+                <p> Already have an account? </p> <a href="{% url 'login' %}"> Login </a>
+            </div>
+        </div>
+        <br>
+
+    </body>
+{% endblock %}
