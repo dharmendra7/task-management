@@ -68,8 +68,19 @@ RECIPIENT_ADDRESS=enter recipient email address
 python manage.py migrate
 ```
 
+> ##### 6. Start the development server
 
-> ##### 6. Following accounts will be available @ `/admin/login`
+```bash
+python manage.py runserver
+```
+
+> ##### 7. Start the celery worker
+
+```bash
+celery -A taskmanagement worker -l info
+```
+
+> ##### 8. Following accounts will be available @ `/admin/login`
 
 ##### For client use
 
